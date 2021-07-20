@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace CsvParser.Resolvers
 {
@@ -8,10 +9,13 @@ namespace CsvParser.Resolvers
         {
             return type.Name switch
             {
-                "int" => int.Parse(value),
-                "decimal" => decimal.Parse(value),
-                "double" => decimal.Parse(value),
-                "bool" => bool.Parse(value),
+                nameof(Int32) => int.Parse(value),
+                nameof(Int16) => short.Parse(value),
+                nameof(Int64) => long.Parse(value),
+                nameof(Decimal) => decimal.Parse(value.Replace(',', '.'), CultureInfo.InvariantCulture),
+                nameof(Double) => double.Parse(value.Replace(',', '.'), CultureInfo.InvariantCulture),
+                nameof(Boolean) => bool.Parse(value),
+                nameof(String) => value,
                 _ => value,
             };
         }
